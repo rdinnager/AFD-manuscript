@@ -2,7 +2,7 @@
 title: "AFD_Draft1"
 author: "Russell Dinnage"
 date: "Wednesday, April 09, 2014"
-output: word_document
+output: html_document
 ---
 
 # Introduction
@@ -69,14 +69,14 @@ We generated alignment-free genetic distances using the following methods:
 * FFP
 * RTD
 
-## Comparing estimated genetic distances and topology to the truth
+### Comparing estimated genetic distances and topology to the truth
 
-## Diversity Metrics 
+### Diversity Metrics 
 
-## Comparing ecological distance to genetic distances
+### Comparing ecological distance to genetic distances
 
-## *Dataset*
+#### *Dataset*
 
-## *Statistical Analysis*
+#### *Statistical Analysis*
 
 # Results
