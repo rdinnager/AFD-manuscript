@@ -65,6 +65,10 @@ Genetic distances were drawn from this phylogeny by generated all pairwise dista
 
 For each community, we also generated genetic distance estimates using methods which do not require alignment, and then created phylogenies from these genetic distances using heirarchical clustering (UPGMA: ref), using the 'fastcluster' package in R (ref).
 
+We generated alignment-free genetic distances using the following methods: 
+* FFP
+* RTD
+
 ## Comparing estimated genetic distances and topology to the truth
 
 ## Diversity Metrics 
