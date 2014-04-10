@@ -2,7 +2,10 @@
 title: "AFD_Draft1"
 author: "Russell Dinnage"
 date: "Wednesday, April 09, 2014"
-output: html_document
+output:
+  html_document:
+    self_contained: yes
+bibliography: "/home/din02g/Google Drive/References/AFD.bib"
 ---
 
 # Introduction
@@ -66,8 +69,43 @@ Genetic distances were drawn from this phylogeny by generated all pairwise dista
 For each community, we also generated genetic distance estimates using methods which do not require alignment, and then created phylogenies from these genetic distances using heirarchical clustering (UPGMA: ref), using the 'fastcluster' package in R (ref).
 
 We generated alignment-free genetic distances using the following methods: 
-* FFP
-* RTD
+*Methods based on k-mers words frequency*
+
+* Feature Frequency Profiles (FFP; @Jun2010)
+* Return Time Distribution (RTD; ref)
+* Frequency Chaos Game Representation (FCGR: ref)
+
+
+
+These methods have been thoroughly described elsewhere, but for the reader's benefit we provide a brief description here.
+
+*FFP*
+
+blah blah
+
+*FFP*
+
+blah blah
+
+*FFP*
+
+blah blah
+
+*FFP*
+
+blah blah
+
+*FFP*
+
+blah blah
+
+*FFP*
+
+blah blah
+
+*FFP*
+
+blah blah
 
 ### Comparing estimated genetic distances and topology to the truth
 
@@ -80,3 +118,25 @@ We generated alignment-free genetic distances using the following methods:
 #### *Statistical Analysis*
 
 # Results
+
+#*Discussion*
+
+Despite considerable work on the development of alignment free methods of phylogenetic reconstruction of the past two decades, the use of alignment followed by model-based phylogenetic inference is still the most common way to analyse genetic data. Because of this historic preference for alignment based methods, ecologists who have had to construct there own phylogenies for phylogenetic ecological analyses have largerly followed suit. But is there a simpler and faster way that ecologists can produce phylogenies of comparable usefulness, expecially for increasingly massive ecological datasets? This study would suggest that there is: alignment free methods. Here, we showed that many alignment free methods produce as good, and often better approximations to an underlying 'true' phylogeny.
+
+In the introduction to this paper, we wrote about how ecologists are mainly interested in branchlengths, rather than the topology of phylogenetic trees, because it is phylogenetic distance which is the most likely to predict species' differences in their ecology. Here, we showed that several alignment free methods better reflected phylogenetic distance than the alignment based method. However, we showed that the phylogenies generated from heirarchical clustering of alignment free genetic distances were also more topologically accurate than the alignment based method. It makes sense that if your branchlengths are poorly estimated, this will affect the accuracy of topological reconstruction, especially if some branchlengths are very similar. So we expect branchlength and topological accuracy to be strongly but not perfectly correlated. If this is the case more generally, then why have people continued to use alignment based methods? Part of the answer is that there are surprisingly few studies that actually compare the performance of alignment based methods with alignment free methods.
+
+When introducing new alignment free methods, studies usually test the performance of them using simulation. However, most of these studies use an alignment based method as the baseline. They conclude that if their alignment free method correlates well with the alignment based method then it is a good method. However, this assumes the alignment based method is reflecting the underlying 'true' phylogeny well, if not, then being less correlated with it could in fact be considered a good thing. A review of several alignment free methods (ref) compared the alignment free based phylogenies to a maximum likelihood phylogeney estimated using the known 'true' alignment, and concluded they did more poorly. This is clearly not a fair comparison, as the alignment part of the alignment based method was not undertaken. Another review that properly tested several alignment based methods against a full alignment based method (ref), concluded, similarly to this study, that they were more accurate. The fact is that most studies assume that alignment is the best way to go, because of a bias towards a particular philosophy of phylogenetic reconstruction: that it should be based on an evolutionary model.
+
+The main reason that alignment based methods are the method of choice is because of the post-alignment step, which is explicitly model based. There is a strong desire to couch a phylogenetic hypothesis in a modeling framework, allowing the possibility of discussing the merits of alternative models, and allowing better expression of uncertainty. Indeed, this is a solid argument for modeling approaches, but until recently these modeling approaches require an initial step, which usually does not involve a model of evolution: sequence alignment (or homology estimation). Sequence alignment algorithms are generally heuristic methods rather than an explicit model of any process, introducing some arbitrariness into the overall approach. Indeed most evolutionary models of sequence evolution assume that the input alignment is the true alignment. This is probably why there has been an increasing interest in simultaneously modeling alignment and phylogenetic inference, with some recent progress (refs). This is a promising area, however, these techniques at the moment are very time-consuming, especially for large datasets. Since most systematists study single small taxonomic groups in individual studies, the amount of divergence is small, and the issues with accurate alignment are consequently also small. But modelling sequence evolution allows systematists to get the information they want. In this study we have modelled much greater evolutionary divergence and levels of taxon sampling than usually seen in most systematic studies, but which are frequently encountered by ecologists.
+
+Modelling evolution is most important when trying to distinguish the order of branching of organisms that have fairly similar branchlengths between them. When branchlengths vary greatly, it is simple to find which organisms groups together and how they nest within different groups. Combined with other considerations -- chiefly choosing an appropriate outgroup -- we can use a phylogenetic topology to infer past evolutionary events. Systematists in particular are interested in getting this right, and especially for those more ambiguous groups who are all similarly related to each other. If this is On the other hand, for ecologists, knowing which of a groups of similarly related organisms fall into the same natural grouping is of much less relevance. Regardless of which groups diverged first, if they have similar branchlengths between them, they are expected to have a similar degree of ecological divergence. For ecologists, getting the overall pattern of branchlengths correct should be the first priority. Based on the results of this study, we would recommend using an alignment free method for ecological studies, particularly the metric introduced by (ref): Kr, which outperformed the other metrics, and has a number of other benefits as well.
+
+Kr is the only alignment free method tested here to be based on an evolutionary model, which is perhaps why it is as accurate as it is. The evolutionary model allows Kr to be an estimate of a quantity that diverges linearly with time, meaning it should reflect time since divergence well. Most other metrics are known to theoretically diverge with increasing sequence divergence, but there is no guarantee that this divergence is linear with respect to the evolutionary processes generating the differences, namely basepair substitutions occuring at a particular rate through time. Indeed, most alignment free distance metrics diverge rapidly with initial evolutionary change in a sequence but then rapidly saturate as these changes become greater (fig ?). A way of dealing with this issue has recently been proposed, whereby k-mer based distance are adjusted in a taxon specific way using machine learning techniques (ref). However, the adjustments are trained on subset of 'known' distances, which are based on a sequence alignment. This is useful if we want our alignment free methods to produce an answer as similar as possible to the answer using alignment. Kr has an additional advantage over some of the other methods in that it has no parameters. K-mer based methods, on the other hand, require choosing a value for the word length K, and it is not always clear a priori which is the best. Most studies have concluded that a value of K somewhere between 6 and 12 works well (refs), and this study supports that as well. Kr is also potentially extendable, since it is model based. More complex models could be incorporated into its calculation, uncertainty could be incorporated, or its basic modelling principles could be incorporated into a full evolutionary model taking place across a tree instead of just a single pairwise pathway, allowing full phylogenetic estimation in one go without alignment.
+
+Overall, this study does not support the wholesale replacement of alignment based techniques
+
+#*References*
+
+
+
+
