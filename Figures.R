@@ -27,7 +27,7 @@ tdat$lval<-log(tdat$values)
 
 library(ggplot2)
 p<-ggplot(tdat,aes(n.spp,values))+
-  geom_line(aes(colour=ind),size=3)+
+  geom_line(aes(colour=ind),size=2)+
   theme_bw() +ylab("Computation Time (seconds)") + xlab("Number of species in pool")+scale_y_log10(breaks=c(1,10,100,1000,10000))+
   theme(axis.title.x = element_text(  size=20),
         axis.text.x  = element_text(vjust=0.5, size=16),axis.title.y = element_text( size=20),
