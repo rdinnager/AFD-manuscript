@@ -4,7 +4,8 @@ author: "Russell Dinnage"
 date: "Wednesday, April 09, 2014"
 output:
   html_document: default
-  word_document: default
+  word_document: 
+  md_document: 
 bibliography: /home/din02g/Google Drive/References/AFD.bib
 ---
 
