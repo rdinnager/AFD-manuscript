@@ -18,7 +18,7 @@ Ecologists have increasingly recognized the need to incorporate genetic informat
 
 One approach to dealing with this explosion of data is to simply filter out most of it and just focus on a few genes, which is largely the approach which has been used to date (refs). The purpose of this study is to investigate ways to utilize all the available data, while greatly reducing the amount of time and computational effort required to achieve results of comparable quality, and perhaps even higher quality, than those of traditional phylogenetic methods.
 
-Phylogenies often contain more information than is required by ecologists to answer their questions of interest. Phylogenies are usually treated as a proxy for what ecologists are really interested in: traits (ref). Species traits – or phenotype – controls how species interact with their environment and other species, and so they drive the ecology of communities (ref). Phylogeny is a proxy for trait divergence because traits are the product of evolutionary history and so – all else being equal – closely related species will share similar traits on average more than distantly related ones, because they have had less time to diverge (ref). Phylogenies contain two main pieces of information: branch lengths – the amount of evolutionary time or genetic divergence between species – and branching order (or topology) – the order in which species have diverged, which determines things like sister species, and monophyly. The development of phylogenetic methods has largely been concerned with achieving high accuracy in the second of these two pieces of information, the branching order or topology of the generated phylogenetic trees, because this is the information most relevant for systematists, who have developed the methods. We would argue, however, that it is the first piece of information contained in phylogenies, the branch lengths, that are of most interest to ecologists. After all, the branching order hardly matters if we are mainly interested in the average degree of divergence among species, which is what we expect to be correlated with the amount of trait divergence. Therefore, we propose that ecologists can dispense with time-consuming steps designed to increase topological accuracy in phylogenetic reconstruction, and in many cases, work with raw genetic data to generate diversity metrics of similar utility to phylogenetic diversity metrics. 
+Phylogenies often contain more information than is required by ecologists to answer their questions of interest. Phylogenies are usually treated as a proxy for what ecologists are really interested in: traits (ref). Species traits---or phenotype---controls how species interact with their environment and other species, and so they drive the ecology of communities (ref). Phylogeny is a proxy for trait divergence because traits are the product of evolutionary history and so, all else being equal, closely related species will share similar traits on average more than distantly related ones, because they have had less time to diverge (ref). Phylogenies contain two main pieces of information: branch lengths: the amount of evolutionary time or genetic divergence between species, and branching order (or topology): the order in which species have diverged, which determines things like sister species and monophyly. The development of phylogenetic methods has largely been concerned with achieving high accuracy in the second of these two pieces of information, the branching order or topology of the generated phylogenetic trees, because this is the information most relevant for systematists, who have developed the methods. We would argue, however, that it is the first piece of information contained in phylogenies, the branch lengths, that are of most interest to ecologists. After all, the branching order hardly matters if we are mainly interested in the average degree of divergence among species, which is what we expect to be correlated with the amount of trait divergence. Therefore, we propose that ecologists can dispense with time-consuming steps designed to increase topological accuracy in phylogenetic reconstruction, and in many cases, work with raw genetic data to generate diversity metrics of similar utility to phylogenetic diversity metrics. 
 
 ## Alignment-free Genomic diversity Metrics
 
@@ -41,7 +41,7 @@ The goal of this study is to determine the alignment-free methods, and their par
 
 ## *Simulated genomes from simulated phylogenies*
 
-In order to test the accuracy of different alignment-free methods, we first simulated genomic data using known, underlying phylogenies. We based our analysis on a set of 156 randomly generated phylogenies. Each phylogeny was simulated under a birth-death process using the Artificial Life Framework (ALF) software (ref). All trees used the same birth rate (0.04) and death rate (0.025) parameters, and were run until each phylogeny had 300 terminal species. We used three different divergence rates (52 phylogenies for each) such that the maximum divergence achieved in the phylogeny was high -- 800 PAM units (ref), medium -- 600 PAM units, or low -- 300 PAM units.  (explain what a PAM unit is here)(ref)
+In order to test the accuracy of different alignment-free methods, we first simulated genomic data using known, underlying phylogenies. We based our analysis on a set of 156 randomly generated phylogenies. Each phylogeny was simulated under a birth-death process using the Artificial Life Framework (ALF) software (ref). All trees used the same birth rate (0.04) and death rate (0.025) parameters, and were run until each phylogeny had 300 terminal species. We used three different divergence rates (52 phylogenies for each) such that the maximum divergence achieved in the phylogeny was high: 800 PAM units (ref), medium: 600 PAM units, or low: 300 PAM units.  (explain what a PAM unit is here)(ref)
 
 The ALF software simulates the evolution of genomic sequences along these input phylogenies using various parameters to customize the results. We used a standard set of parameters for all phylogenies for consistently, with the goal of a realistically complex evolutionary model. We simulated 20 independent genes across each phylogeny to form our 'genome'. The overall sequence substitution model we used was the 'CPAM' model, which simulates sequences evolution by using empirical codon substitution rates. Insertion and deletions happened at a base rate of 0.0001 per substitution with their length determined by a Zipfian (ref) distribution with parameter 1.821 (the default), with a maximum length of 50. Substitution rate variation between different genes was incorporated using 5 randomly assigned substitution classes with a gamma distribution with alpha and beta parameter equal to 1, and a proportion of invariable sites equal to 0.01. Rate heterogeneity among the 20 genes was also allowed and was distributed according to a gamma distribution with alpha and beta parameter of 1. Gene length was distributed according to a gamma distribution (with alternate parameterization) with parameter k set to 2.4019, and theta set to 133.8063 (ref). 
 
@@ -165,7 +165,36 @@ Overall, this study does not support the wholesale replacement of alignment base
 
 #Figures
 
+```{r, echo=FALSE, fig.width=7, fig.height=6.5}
+library(ape)
+cortree<-read.tree(file="/home/din02g/Google Drive/AFD-manuscript/Figure1a.tre")
+treetree<-read.tree(file="/home/din02g/Google Drive/AFD-manuscript/Figure1b.tre")
+
+cols1<-rep("black",length(cortree$tip.label))
+cols1[cortree$tip.label=="TRUEdist"]<-"darkred"
+
+cols2<-rep("black",length(treetree$tip.label))
+cols2[treetree$tip.label=="TRUEtree"]<-"darkred"
+
+par(mfrow=c(1,2),cex=.75,mar=c(5,1,2,0)+0.1) 
+plot(cortree, no.margin=F,font=2,main="Branch-length Correlation",tip.color=cols1)
+axisPhylo()
+plot(treetree, no.margin=F,font=2,main="Robinson-Foulds Distance (Topology)",tip.color=cols2)
+axisPhylo()
+
+par(mfrow=c(1,1),cex=1,mar=c(5, 4, 4, 2) + 0.1) 
+```
+__Figure 1.__ Clustergrams showing how similarity of phylogenetic trees constructed using different methods in terms of their branch-lengths (left panel) and their topology (right panel). Clustergrams generated using heirarchical clustering with average linkage and using the mean distances across all 4000 replications. The 'true' distance or tree is highlighted in red. Methods closest to this are the most accurate.
+
+```{r, echo=F, fig.width=9, fig.height=9}
+library(ggplot2)
+load(file="/home/din02g/Google Drive/AFD-manuscript/Figure2.RData")
+p
+```
+__Figure 2.__ Ordination plot of best performing methods.
+
 ```{r, echo=F}
+library(ggplot2)
 load(file="/home/din02g/Google Drive/AFD-manuscript/Figure3.RData")
 p
 ```
