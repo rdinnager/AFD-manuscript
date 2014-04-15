@@ -146,10 +146,21 @@ for(g in levels(as.factor(corbigord$V3))){
                                 ,group=g))
 }
 
+ord2<-ordiellipse(treebigord[,1:2],treebigord$V3,choices=c(1,2))
+df_ell2 <- data.frame()
+for(g in levels(as.factor(treebigord$V3))){
+  df_ell2 <- rbind(df_ell2, cbind(as.data.frame(with(treebigord[corbigord$V3==g,],
+                                                   veganCovEllipse(ord2[[g]]$cov,ord2[[g]]$center,ord2[[g]]$scale)))
+                                ,group=g))
+}
+
 corbigord.mean=aggregate(corbigord[,1:2],list(group=corbigord$V3),mean)
 corbigord.mean$group<-c("aligned","TRUTH","bbc","icpic","fcgr","rtd","k80","ffp","kr")
+treebigord.mean=aggregate(treebigord[,1:2],list(group=treebigord$V3),mean)
+treebigord.mean$group<-c("aligned","TRUTH","bbc","icpic","fcgr","rtd","k80","ffp","kr")
 
 corbigord<-corbigord[sample.int(nrow(corbigord)),]
+treebigord<-treebigord[sample.int(nrow(treebigord)),]
 
 library(wesanderson)
 pal1<-wes.palette(5,"Moonrise3")
@@ -159,7 +170,7 @@ pal2<-wes.palette(4, "Chevalier")
 p<-ggplot(corbigord,aes(V1,V2))+
   geom_point(aes(colour=V3),alpha=0.7,size=5)+
   geom_path(data=df_ell, aes(x=V1, y=V2,linetype=group), size=4,colour="white")+
-  geom_path(data=df_ell, aes(x=V1, y=V2,colour=group), size=2, linetype=1)+coord_fixed()+
+  geom_path(data=df_ell, aes(x=V1, y=V2,colour=group), size=2, linetype=1,alpha=0.7)+coord_fixed()+
   theme_bw() +  scale_linetype_manual(values=c(1,1,1,1,1,1,1,1,1,1,1,1),guide="none")+
   #scale_colour_manual(values=pal) +
   annotate("text",x=corbigord.mean$V1,y=corbigord.mean$V2+c(0,0,0,0,0,0,-0.02,0,0),label=corbigord.mean$group,size=c(7,7,7,7,7,7,6,7,7),colour="black") +
@@ -169,4 +180,63 @@ p<-ggplot(corbigord,aes(V1,V2))+
         axis.text.y  = element_text(vjust=0.5, size=16))
 p
  
-save(p,file="/home/din02g/Google Drive/AFD-manuscript/Figure2.RData")
+save(p,file="/home/din02g/Google Drive/AFD-manuscript/Figure2a.RData")
+
+library(ggplot2)
+library(directlabels)
+library(wesanderson)
+pal1<-wes.palette(5,"Moonrise3")
+pal2<-wes.palette(4, "Chevalier")
+#pal<-c(pal1,pal2)
+#pal<-pal[sample.int(9)]
+p<-ggplot(treebigord,aes(V1,V2))+
+  geom_point(aes(colour=V3),alpha=0.7,size=5)+
+  geom_path(data=df_ell2, aes(x=V1, y=V2,linetype=group), size=4,colour="white")+
+  geom_path(data=df_ell2, aes(x=V1, y=V2,colour=group), size=2, linetype=1, alpha=0.7)+
+  theme_bw() +  scale_linetype_manual(values=c(1,1,1,1,1,1,1,1,1),guide="none")+
+  #scale_colour_manual(values=pal) +
+  #annotate("text",x=treebigord.mean$V1,y=treebigord.mean$V2,label=treebigord.mean$group,size=7,colour="black") +
+  theme(legend.position="none")+ylab("MDS Axis 2") + xlab("MDS Axis 1")+
+  theme(axis.title.x = element_text(  size=20),
+        axis.text.x  = element_text(vjust=0.5, size=16),axis.title.y = element_text( size=20),
+        axis.text.y  = element_text(vjust=0.5, size=16))
+p
+
+save(p,file="/home/din02g/Google Drive/AFD-manuscript/Figure2b.RData")
+
+
+
+load(file="/home/din02g/NewSims/TestSet2/TestMetaData.rData")
+treefulldat$Div<-corfulldat$Div<-diverg[as.numeric(names(cordistlist))]
+
+mod<-lm(treefulldat$ALIGN~as.factor(treefulldat$Div))
+
+mod<-lm(corfulldat$ALIGN~as.factor(corfulldat$Div))
+
+mod<-lm(corfulldat$UPGMA_KR~as.factor(corfulldat$Div))
+
+
+
+#MPD Plot
+library(ggplot2)
+load(file="/home/din02g/NewSims/TestSet2/MPDdat.RData")
+MPDcors<-lapply(fullMPDdat,cor)
+MPDacc<-do.call(rbind,lapply(MPDcors,function(x) x["TRUEdist",]))
+MPDaccMean<-apply(MPDacc,2,mean)[2:9]
+MPDaccStE<-apply(MPDacc,2,function(x) sd(x)/sqrt(length(x)))[2:9]
+MPDaccDat<-as.data.frame(cbind(MPDaccMean,MPDaccStE))
+MPDaccDat$Metric<-c("FFP \n k=8","RTD \n k=7","BBC \n k=150","ICPIC \n k=150","FCGR \n k=6","Kr","K80","Alignment \n Based")
+p<-ggplot(MPDaccDat,aes(y=MPDaccMean,x=as.factor(Metric))) +
+  geom_point(size=5) + geom_errorbar(aes(ymax=MPDaccMean+MPDaccStE,ymin=MPDaccMean-MPDaccStE))
+p
+
+MPDnew<-as.data.frame(MPDacc[,2:9])
+colnames(MPDnew)<-c("FFP \n k=8","RTD \n k=7","BBC \n k=150","ICPIC \n k=150","FCGR \n k=6","Kr","K80","Alignment \n Based")
+MPDstack<-stack(MPDnew)
+p <- ggplot(MPDstack, values,aes(factor(ind)))+ylim(0,1)
+p + geom_violin(width=2,scale="width") + coord_flip()#+geom_point(data=MPDaccDat,y=MPDaccMean,size=5)
+
+p <- ggplot(MPDstack, values,aes(factor(ind)))+ylab("Correlation with \"true\" Branch-lengths") 
+p<-p + geom_point(size=3,alpha=0.01,position="jitter")+ylab("Correlation with \"True\" Phylogenetic Diversity (MPD)") + xlab("Phylogenetic Method")+ coord_flip()
+p
+save(p,file="/home/din02g/Google Drive/AFD-manuscript/Figure4.RData")
