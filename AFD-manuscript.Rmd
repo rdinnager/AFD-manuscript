@@ -3,8 +3,8 @@ title: "For Ecology, Unaligned is Fine. Draft1"
 author: "Russell Dinnage"
 date: "Wednesday, April 09, 2014"
 output:
+  md_document: default
   pdf_document: default
-  md_document: null
   html_document: default
   word_document: default
 bibliography: /home/din02g/Google Drive/References/AFD.bib
@@ -43,7 +43,7 @@ The goal of this study is to determine the alignment-free methods, and their par
 
 ### *Simulated genomes from simulated phylogenies*
 
-In order to test the accuracy of different alignment-free methods, we first simulated genomic data using known, underlying phylogenies. We based our analysis on a set of 156 randomly generated phylogenies. Each phylogeny was simulated under a birth-death process using the Artificial Life Framework (ALF) software [@Dalquen2012]. All trees used the same birth rate (0.04) and death rate (0.025) parameters, and were run until each phylogeny had 300 terminal species. We used three different divergence rates (52 phylogenies for each) such that the maximum divergence achieved in the phylogeny was high: 800 PAM units, medium: 600 PAM units, or low: 300 PAM units.  A PAM unit is the number of point accepted mutations--changes that replace a single amino acid in a protein with another, and are accepted by natural selection [@Dayhoff1978]--that have occurred per 100 amino acids.
+In order to test the accuracy of different alignment-free methods, we first simulated genomic data using known, underlying phylogenies. We based our analysis on a set of 156 randomly generated phylogenies. Each phylogeny was simulated under a birth-death process using the Artificial Life Framework (ALF) software [@Dalquen2012]. All trees used the same birth rate (0.04) and death rate (0.025) parameters, and were run until each phylogeny had 300 terminal species. We used three different divergence rates (52 phylogenies for each) such that the maximum divergence achieved in the phylogeny was high: 800 PAM units, medium: 600 PAM units, or low: 300 PAM units.  A PAM unit is the number of point accepted mutations---changes that replace a single amino acid in a protein with another, and are accepted by natural selection [@Dayhoff1978]---that have occurred per 100 amino acids.
 
 The ALF software simulates the evolution of genomic sequences along these input phylogenies using various parameters to customize the results. We used a standard set of parameters for all phylogenies for consistently, with the goal of a realistically complex evolutionary model. We simulated 20 independent genes across each phylogeny to form our 'genome'. The overall sequence substitution model we used was the 'CPAM' model, which simulates sequences evolution by using empirical codon substitution rates. Insertion and deletions happened at a base rate of 0.0001 per substitution with their length determined by a Zipfian distribution with parameter 1.821 (the default), with a maximum length of 50. Substitution rate variation between different genes was incorporated using 5 randomly assigned substitution classes with a gamma distribution with alpha and beta parameter equal to 1, and a proportion of invariable sites equal to 0.01. Rate heterogeneity among the 20 genes was also allowed and was distributed according to a gamma distribution with alpha and beta parameter of 1. Gene length was distributed according to a gamma distribution (with alternate parameterization) with parameter k set to 2.4019, and theta set to 133.8063. 
 
