@@ -235,13 +235,16 @@ p + ggtitle("b)") +
 ``` 
 __Figure 2.__ _Ordination plot demonstrating how a sample of different phylogenetic methods relate to each other in terms of how similar their estimated branch-lengths (a) or topology (b) are. Colours are the same in both plots. For each of the 4000 data-sets we used multidimensional scaling on the branch-length distances to create a set of ordinations in two dimensions, where each method’s distance to other methods in the two dimensional space was as close as possible to their measured distance (a=branch-length correlation distance, b=Robinson-Foulds distance). We chose an orientation for the first data-set at random and then used a Procrustes  transformation to rotate each data-set’s point-cloud so that it matched as closely as possible to the first orientation. Ellipses are based on the multivariate standard error of the clouds._ 
 
+![Figure 3](Figures/Scribbly.png)
+__Figure 3.__ _Showing the relationship between the 'True' phylogenetic distance and distance based on several example distances. Each line is a non-linear function fit to the data from a single community simulation using natural splines with degrees of freedom of two. One thousand randomly selected out of the 4000 community simulations are shown here. For comparability, the distances were first standardized by dividing by the largest distance in each community simulation._
+
 Looking at phylogenetic diversity calculated from the different metrics, the most highly correlated to the "true" phylogenetic diversity was based on "K~r~", and in general followed a pattern where the metrics with the most faithful branch-lengths also produced the best phylogenetic diversity estimates, as we expected (Fig 3). (__Note:__ I have not analyzed the PD or PSV data yet, or the MPD false positives and false negatives, but I suspect it to show similar results.)
 
 ```{r Fig3, echo=FALSE, cache=TRUE}
 load(file="/home/din02g/Google Drive/AFD-manuscript/Figure4.RData")
 p
 ```
-__Figure 3.__ _Plot of how well phylogenetic diversity of simulated local sub-communities calculated with different metrics correlate with the "True" phylogenetic diversity, based on the underlying 'true' phylogeny. 1 is a perfect correlation. Points are plotted with a low opacity so that areas of high density appear black, whereas light grey are parts of the axis with few data points._ 
+__Figure 4.__ _Plot of how well phylogenetic diversity of simulated local sub-communities calculated with different metrics correlate with the "True" phylogenetic diversity, based on the underlying 'true' phylogeny. 1 is a perfect correlation. Points are plotted with a low opacity so that areas of high density appear black, whereas light grey are parts of the axis with few data points._ 
 
 ##Community Set 2: 
 ###_Initial Observations on Taxon Sampling_
@@ -260,7 +263,7 @@ library(ggplot2)
 load(file="/home/din02g/Google Drive/AFD-manuscript/Figure3.RData")
 p
 ```
-__Figure 4.__ _Computation time of different phylogenetic methods as a function of the number of species in the analyzed pool. Note the log scale._
+__Figure 5.__ _Computation time of different phylogenetic methods as a function of the number of species in the analyzed pool. Note the log scale._
 
 ## Comparing ecological distance to genetic distances
 

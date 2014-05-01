@@ -184,9 +184,9 @@ until each phylogeny had 300 terminal species. We used three different
 divergence rates (52 phylogenies for each) such that the maximum
 divergence achieved in the phylogeny was high: 800 PAM units, medium:
 600 PAM units, or low: 300 PAM units. A PAM unit is the number of point
-accepted mutations--changes that replace a single amino acid in a
+accepted mutations---changes that replace a single amino acid in a
 protein with another, and are accepted by natural selection (Dayhoff,
-Schwartz, and Orcutt 1978)--that have occurred per 100 amino acids.
+Schwartz, and Orcutt 1978)---that have occurred per 100 amino acids.
 
 The ALF software simulates the evolution of genomic sequences along
 these input phylogenies using various parameters to customize the
@@ -589,6 +589,15 @@ Procrustes transformation to rotate each data-set’s point-cloud so that
 it matched as closely as possible to the first orientation. Ellipses are
 based on the multivariate standard error of the clouds.*
 
+![Figure 3](Figures/Scribbly.png) **Figure 3.** *Showing the
+relationship between the 'True' phylogenetic distance and distance based
+on several example distances. Each line is a non-linear function fit to
+the data from a single community simulation using natural splines with
+degrees of freedom of two. One thousand randomly selected out of the
+4000 community simulations are shown here. For comparability, the
+distances were first standardized by dividing by the largest distance in
+each community simulation.*
+
 Looking at phylogenetic diversity calculated from the different metrics,
 the most highly correlated to the "true" phylogenetic diversity was
 based on "K<sub>r</sub>", and in general followed a pattern where the
@@ -600,7 +609,7 @@ false negatives, but I suspect it to show similar results.)
 ![plot of chunk
 Fig3](AFD-manuscript_files/figure-markdown_strict/Fig3.png)
 
-**Figure 3.** *Plot of how well phylogenetic diversity of simulated
+**Figure 4.** *Plot of how well phylogenetic diversity of simulated
 local sub-communities calculated with different metrics correlate with
 the "True" phylogenetic diversity, based on the underlying 'true'
 phylogeny. 1 is a perfect correlation. Points are plotted with a low
@@ -648,7 +657,7 @@ worry about the total number of datapoints increasing with species).
 ![plot of chunk
 unnamed-chunk-2](AFD-manuscript_files/figure-markdown_strict/unnamed-chunk-2.png)
 
-**Figure 4.** *Computation time of different phylogenetic methods as a
+**Figure 5.** *Computation time of different phylogenetic methods as a
 function of the number of species in the analyzed pool. Note the log
 scale.*
 

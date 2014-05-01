@@ -240,3 +240,77 @@ p <- ggplot(MPDstack, values,aes(factor(ind)))+ylab("Correlation with \"true\" B
 p<-p + geom_point(size=3,alpha=0.01,position="jitter")+ylab("Correlation with \"True\" Phylogenetic Diversity (MPD)") + xlab("Phylogenetic Method")+ coord_flip()
 p
 save(p,file="/home/din02g/Google Drive/AFD-manuscript/Figure4.RData")
+
+#Curvilinear Figure
+load(file="/home/din02g/NewSims/TestSet2/distdata.rData")
+distmat<-distmat[sample.int(4000,1000)]
+rm(MPDdat,PSVdat,cordistlist,treedistlist)
+gc()
+sdists<-mapply(function(x,y) cbind(Rep=rep(y,ncol(x)),scale(x[,-ncol(x)]),TRUEdist=x[,ncol(x)]),distmat,c(1:length(distmat)))
+mdists<-mapply(function(x,y) cbind(Rep=rep(y,ncol(x)),t(t(x)/apply(x,2,max))),distmat,c(1:length(distmat)))
+alldists<-as.data.frame(do.call(rbind,sdists))
+malldist<-as.data.frame(do.call(rbind,mdists))
+
+require(ggplot2)
+require(mgcv)
+require(splines)
+p <- ggplot( alldists, aes( y=UPGMA_K80, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.15) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p
+
+p <- ggplot( alldists, aes( y=UPGMA_K_8_FFP, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.2) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p
+
+p <- ggplot( alldists, aes( y=UPGMA_KR, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.2) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p
+
+require(ggplot2)
+require(mgcv)
+require(splines)
+p2 <- ggplot( malldist, aes( y=UPGMA_K80, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.15) +
+  geom_abline(intercept=0, slope=1) + ylab("UPGMA Alignment Distance (Kimura 1980)") + xlab("") +
+  coord_fixed(1/1.1) + scale_y_continuous(limits=c(0,1.1),breaks=c(0,0.25,0.5,0.75,1.0)) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p2
+
+p4 <- ggplot( malldist, aes( y=UPGMA_KR, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.15) +
+  geom_abline(intercept=0, slope=1) + ylab(expression("UPGMA"~K[r]~"Distance")) + xlab("True Phylogenetic Distance") + 
+  coord_fixed(1/1.1) + scale_y_continuous(limits=c(0,1.1),breaks=c(0,0.25,0.5,0.75,1.0)) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p4
+
+p3 <- ggplot( malldist, aes( y=UPGMA_K_10_FFP, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.15) +
+  geom_abline(intercept=0, slope=1) + ylab("UPGMA FFP Distance (K=10)") + xlab("True Phylogenetic Distance") + 
+  coord_fixed(1/1.1) + scale_y_continuous(limits=c(0,1.1),breaks=c(0,0.25,0.5,0.75,1.0)) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p3
+
+p1 <- ggplot( malldist, aes( y=ALIGN, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.15) +
+  geom_abline(intercept=0, slope=1) + ylab("Alignment Distance (MUSCLE + RaxML)") + 
+  xlab("") + coord_fixed(1/1.1) + scale_y_continuous(limits=c(0,1.1),breaks=c(0,0.25,0.5,0.75,1.0)) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p1
+
+p <- ggplot( malldist, aes( y=ALIGN_ULTdist, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.15) +
+  geom_abline(intercept=0, slope=1) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p
+
+p <- ggplot( malldist, aes( y=UPGMA_K_7_RTD, x=TRUEdist ) ) + 
+  geom_line( stat="smooth", method="lm", formula=y~ns(x,2), mapping=aes(colour=as.factor(Rep)),size=0.1,fullrange=F,alpha=0.15) +
+  geom_abline(intercept=0, slope=1) +
+  scale_color_manual(values=rep("black",length(sdists))) + theme_bw() + theme(legend.position="none") 
+p
+
+library(gridExtra)
+grid.arrange(p1,p2,p3,p4)
